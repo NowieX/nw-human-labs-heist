@@ -42,10 +42,6 @@ RegisterCommand('scene', function()
     
     NetworkStartSynchronisedScene(swipe_card_scene)
     
-    local scene_timer = GetAnimDuration(animDict, "success_var03_card")
-
-    -- Citizen.Wait(scene_timer)
-    -- print("Dit is de scene timer: ", scene_timer)
     Citizen.Wait(5400)
     
     DeleteEntity(security_card)
