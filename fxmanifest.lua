@@ -15,7 +15,8 @@ dependency {
 shared_script {
 	'@es_extended/imports.lua',
 	'@ox_lib/init.lua',
-	'config.lua',
+	'shared/config.lua',
+	'shared/scenes.lua',
 }
 
 client_script {
@@ -24,7 +25,7 @@ client_script {
 
 server_script {
 	'@oxmysql/lib/MySQL.lua',
-	'server/server.lua'
+	'server/server.lua',
 }
 
 lua54 'yes'
