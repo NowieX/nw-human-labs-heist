@@ -1,6 +1,6 @@
 local function CreateCardSwipe()
     local card_swipe_coords = vec3(133.997, -762.857, 46.1)
-    card_swipe = CreateObject(`tr_prop_tr_fp_scanner_01a`, card_swipe_coords.x, card_swipe_coords.y, card_swipe_coords.z - 0.2, true, true, false)
+    card_swipe = CreateObject(`tr_prop_tr_fp_scanner_01a`, card_swipe_coords.x, card_swipe_coords.y, card_swipe_coords.z, true, true, false)
     SetEntityHeading(card_swipe, 337.5087)
 
     CardSwipeZone = exports.ox_target:addBoxZone({
@@ -27,6 +27,38 @@ local function LockDoors(custom_hash, hash_name_door, coords)
     DoorSystemSetDoorState(custom_hash, 1)
 end
 
+local function CreateRandomLocationNPC()
+    local random_npc_from_table = Config.HeistNPC["HeistSeller"][math.random(#Config.HeistNPC["HeistSeller"])]
+    return random_npc_from_table
+end
+
+local function CheckForRangePlayer(coords)
+    while true do
+        Wait(1500)
+        local player = PlayerPedId()
+        local player_coords = GetEntityCoords(player)
+        local distance = #(player_coords - coords)
+        
+        if distance < 200 then
+            return true
+        end
+    end
+end
+
+local function CreateSellerNpc(random_npc)
+    seller_npc = CreatePed(1, random_npc.ped_model, random_npc.location.x, random_npc.location.y, random_npc.location.z - 1, random_npc.heading,  false, true)
+
+    SetPedFleeAttributes(seller_npc, 0, 0)
+    SetPedDropsWeaponsWhenDead(seller_npc, false)
+    SetPedDiesWhenInjured(seller_npc, false)
+    SetEntityInvincible(seller_npc , true)
+    FreezeEntityPosition(seller_npc, true)
+    SetBlockingOfNonTemporaryEvents(seller_npc, true)
+
+    TaskStartScenarioInPlace(seller_npc, 'WORLD_HUMAN_AA_SMOKE', 0, true)
+    return seller_npc
+end
+
 --- @param blip_x number
 --- @param blip_y number
 --- @param blip_z number
@@ -45,22 +77,6 @@ function CreateBlip(blip_x, blip_y, blip_z, sprite, scale, colour, route, blip_n
     AddTextComponentSubstringPlayerName(blip_name)
     EndTextCommandSetBlipName(blip)
     return blip
-end
-
-local function CreateSellerNpc()
-    local random_npc = Config.HeistNPC["HeistSeller"][math.random(#Config.HeistNPC["HeistSeller"])]
-
-    seller_npc = CreatePed(2, random_npc.ped_model, random_npc.location.x, random_npc.location.y, random_npc.location.z - 1, random_npc.location.w,  false, true)
-
-    SetPedFleeAttributes(seller_npc, 0, 0)
-    SetPedDropsWeaponsWhenDead(seller_npc, false)
-    SetPedDiesWhenInjured(seller_npc, false)
-    SetEntityInvincible(seller_npc , true)
-    FreezeEntityPosition(seller_npc, true)
-    SetBlockingOfNonTemporaryEvents(seller_npc, true)
-
-    TaskStartScenarioInPlace(seller_npc, 'WORLD_HUMAN_AA_SMOKE', 0, true)
-    return random_npc
 end
 
 CreateThread(function()
@@ -226,16 +242,7 @@ function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target
         prop_blip = CreateBlip(prop_coords.x, prop_coords.y, prop_coords.z, blip_info[1], blip_info[2], blip_info[3], blip_info[4], blip_info[5])
     end
 
-    while true do
-        Wait(1500)
-        local player = PlayerPedId()
-        local player_coords = GetEntityCoords(player)
-        local distance = #(player_coords - prop_coords)
-        
-        if distance < 200 then
-            break
-        end
-    end
+    CheckForRangePlayer(prop_coords)
 
     local prop = CreateObject(prop_hash, prop_coords.x, prop_coords.y, prop_coords.z, true, false, false)
     SetEntityHeading(prop, prop_heading)
@@ -252,7 +259,6 @@ function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target
         options = {
             {
                 onSelect = function ()
-                    print("Gaan nu "..event.." starten.")
                     TriggerEvent('ac-human-labs-heist:client:'..event, {prop_coords, prop})
                     exports.ox_target:removeZone(boxZone)
                 end,
@@ -265,27 +271,32 @@ function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target
 end
 
 RegisterNetEvent("ac-human-labs-heist:client:CreateLocationToSell", function ()
-    local sell_npc = CreateSellerNpc()
-    local sell_npc_blip = CreateBlip(sell_npc.location.x, sell_npc.location.y, sell_npc.location.z, 280, 1.5, 2, true, "Serum Verkoop")
-    
-    Npc_sellBoxZone = exports.ox_target:addBoxZone({
-        coords = vec3(sell_npc.location.x, sell_npc.location.y, sell_npc.location.z),
-        size = vec3(0.7, 0.7, 0.7),
-        rotation = 360,
-        debug = Config.Debugger,
-        options = {
-            {
-                onSelect = function ()
-                    TriggerServerEvent("", sell_npc) -- Verkoop npc blip doen
-                    RemoveBlip(sell_npc_blip)
-                    exports.ox_target:removeZone(Npc_sellBoxZone)
-                end,
-                distance = Config.GeneralTargetDistance,
-                icon = 'fa fa-'..fa_icon,
-                label = target_label,
-            },
-        }
-    })
+    local random_location_npc = CreateRandomLocationNPC()
+    local sell_npc_blip = CreateBlip(random_location_npc.location.x, random_location_npc.location.y, random_location_npc.location.z, 280, 1.5, 2, true, "Serum Verkoop")
+
+    if CheckForRangePlayer(random_location_npc.location) then
+        CreateSellerNpc(random_location_npc)
+        
+        Npc_sellBoxZone = exports.ox_target:addBoxZone({
+            coords = vec3(random_location_npc.location.x, random_location_npc.location.y, random_location_npc.location.z),
+            size = vec3(0.7, 0.7, 0.7),
+            rotation = 360,
+            debug = Config.Debugger,
+            options = {
+                {
+                    onSelect = function ()
+                        TriggerServerEvent("ac-human-labs-heist:server:PayoutFromHeist", random_location_npc) -- Verkoop npc blip doen
+                        RemoveBlip(sell_npc_blip)
+                        TaskWanderStandard(seller_npc, 10.0, 10)
+                        exports.ox_target:removeZone(Npc_sellBoxZone)
+                    end,
+                    distance = Config.GeneralTargetDistance,
+                    icon = 'fa fa-money-bill-1-wave',
+                    label = "Serum Verkopen",
+                },
+            }
+        })
+    end
 end)
 
 exports('triggerBlueprintUI', function ()

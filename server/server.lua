@@ -73,6 +73,10 @@ RegisterNetEvent('ac-human-labs-heist:server:GivePlayerItem', function (coords, 
     TriggerClientEvent('ac-human-labs-heist:client:CreateZoneForElevator', src, 136.719, -763.428, 234.212, "WarpPlayerDownFBIbuilding", 'fa fa-down-long', 'Ga omlaag')
 end)
 
+RegisterNetEvent("ac-human-labs-heist:server:PayoutFromHeist", function ()
+    print("Het werkt, de speler heeft uitgecashed")
+end)
+
 RegisterNetEvent('ac-human-labs-heist:server:RemoveItem', function (item_name, count)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
