@@ -22,6 +22,9 @@ local function CreateCardSwipe()
     return card_swipe_coords
 end
 
+--- @param custom_hash string
+--- @param hash_name_door string
+--- @param coords number
 local function LockDoors(custom_hash, hash_name_door, coords)
     AddDoorToSystem(custom_hash, hash_name_door, coords.x, coords.y, coords.z)
     DoorSystemSetDoorState(custom_hash, 1)
@@ -61,6 +64,57 @@ local function CreateSellerNpc()
 
     TaskStartScenarioInPlace(seller_npc, 'WORLD_HUMAN_AA_SMOKE', 0, true)
     return random_npc
+end
+
+--- @param prop_coords number
+--- @param prop_hash string
+--- @param event string
+--- @param prop_heading number
+--- @param fa_icon string
+--- @param target_label string
+--- @param use_blip boolean
+--- @param blip_info string
+function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target_label, use_blip, blip_info)
+    if use_blip then
+        prop_blip = CreateBlip(prop_coords.x, prop_coords.y, prop_coords.z, blip_info[1], blip_info[2], blip_info[3], blip_info[4], blip_info[5])
+    end
+
+    while true do
+        Wait(1500)
+        local player = PlayerPedId()
+        local player_coords = GetEntityCoords(player)
+        local distance = #(player_coords - prop_coords)
+        
+        if distance < 200 then
+            break
+        end
+    end
+
+    local prop = CreateObject(prop_hash, prop_coords.x, prop_coords.y, prop_coords.z, true, false, false)
+    SetEntityHeading(prop, prop_heading)
+    
+    if event ~= "StartPickingSerum" then
+        PlaceObjectOnGroundProperly(prop)
+    end
+
+    boxZone = exports.ox_target:addBoxZone({
+        coords = vec3(prop_coords.x, prop_coords.y, prop_coords.z),
+        size = vec3(0.7, 0.7, 0.7),
+        rotation = 360,
+        debug = Config.Debugger,
+        options = {
+            {
+                onSelect = function ()
+                    print("Gaan nu "..event.." starten.")
+                    TriggerEvent('ac-human-labs-heist:client:'..event, {prop_coords, prop})
+                    exports.ox_target:removeZone(boxZone)
+                end,
+                distance = Config.GeneralTargetDistance,
+                icon = 'fa fa-'..fa_icon,
+                label = target_label,
+            },
+        }
+    })
 end
 
 CreateThread(function()
@@ -220,49 +274,6 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerDownFBIbuilding', functio
 
     CreateProp(vec3(3530.969, 3736.867, 36.713), `h4_prop_h4_elecbox_01a`, 'StartHackElectricBox', -10.731, 'bolt', Config.Translations["Phases"]["SecondPreparationPhase"].electric_box_target_label, true, {354, 0.7, 60, true, "Elektriciteits Kast"})
 end)
-
-function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target_label, use_blip, blip_info)
-    if use_blip then
-        prop_blip = CreateBlip(prop_coords.x, prop_coords.y, prop_coords.z, blip_info[1], blip_info[2], blip_info[3], blip_info[4], blip_info[5])
-    end
-
-    while true do
-        Wait(1500)
-        local player = PlayerPedId()
-        local player_coords = GetEntityCoords(player)
-        local distance = #(player_coords - prop_coords)
-        
-        if distance < 200 then
-            break
-        end
-    end
-
-    local prop = CreateObject(prop_hash, prop_coords.x, prop_coords.y, prop_coords.z, true, false, false)
-    SetEntityHeading(prop, prop_heading)
-    
-    if event ~= "StartPickingSerum" then
-        PlaceObjectOnGroundProperly(prop)
-    end
-
-    boxZone = exports.ox_target:addBoxZone({
-        coords = vec3(prop_coords.x, prop_coords.y, prop_coords.z),
-        size = vec3(0.7, 0.7, 0.7),
-        rotation = 360,
-        debug = Config.Debugger,
-        options = {
-            {
-                onSelect = function ()
-                    print("Gaan nu "..event.." starten.")
-                    TriggerEvent('ac-human-labs-heist:client:'..event, {prop_coords, prop})
-                    exports.ox_target:removeZone(boxZone)
-                end,
-                distance = Config.GeneralTargetDistance,
-                icon = 'fa fa-'..fa_icon,
-                label = target_label,
-            },
-        }
-    })
-end
 
 RegisterNetEvent("ac-human-labs-heist:client:CreateLocationToSell", function ()
     local sell_npc = CreateSellerNpc()
