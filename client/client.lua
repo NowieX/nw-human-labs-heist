@@ -240,7 +240,7 @@ function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target
     local prop = CreateObject(prop_hash, prop_coords.x, prop_coords.y, prop_coords.z, true, false, false)
     SetEntityHeading(prop, prop_heading)
     
-    if event == "StartHackElectricBox" then
+    if event ~= "StartPickingSerum" then
         PlaceObjectOnGroundProperly(prop)
     end
 
