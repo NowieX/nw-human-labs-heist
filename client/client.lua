@@ -30,39 +30,6 @@ local function LockDoors(custom_hash, hash_name_door, coords)
     DoorSystemSetDoorState(custom_hash, 1)
 end
 
-local function CreateRandomLocationNPC()
-    local random_npc_from_table = Config.HeistNPC["HeistSeller"][math.random(#Config.HeistNPC["HeistSeller"])]
-    return random_npc_from_table
-end
-
-local function CheckForRangePlayer(coords)
-    while true do
-        Wait(1500)
-        local player = PlayerPedId()
-        local player_coords = GetEntityCoords(player)
-        local distance = #(player_coords - coords)
-        
-        if distance < 200 then
-            return true
-        end
-    end
-end
-
---- @param random_npc table
-local function CreateSellerNpc(random_npc)
-    seller_npc = CreatePed(1, random_npc.ped_model, random_npc.location.x, random_npc.location.y, random_npc.location.z - 1, random_npc.heading,  false, true)
-
-    SetPedFleeAttributes(seller_npc, 0, 0)
-    SetPedDropsWeaponsWhenDead(seller_npc, false)
-    SetPedDiesWhenInjured(seller_npc, false)
-    SetEntityInvincible(seller_npc , true)
-    FreezeEntityPosition(seller_npc, true)
-    SetBlockingOfNonTemporaryEvents(seller_npc, true)
-
-    TaskStartScenarioInPlace(seller_npc, 'WORLD_HUMAN_AA_SMOKE', 0, true)
-    return seller_npc
-end
-
 --- @param blip_x number
 --- @param blip_y number
 --- @param blip_z number
@@ -153,36 +120,38 @@ function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target
 end
 
 CreateThread(function()
-    RequestModel(GetHashKey(Config.HeistNPC['HeistStarter'].model))
-    while not HasModelLoaded(GetHashKey(Config.HeistNPC['HeistStarter'].model)) do
-        Wait(1)
+    for _, value in pairs(Config.HeistNPC) do
+        RequestModel(GetHashKey(value.model))
+        while not HasModelLoaded(GetHashKey(value.model)) do
+            Wait(1)
+        end
+
+        npc = CreatePed(2, value.model, value.location.x, value.location.y, value.location.z - 1, value.location.w,  false, true)
+
+        SetPedFleeAttributes(npc, 0, 0)
+        SetPedDropsWeaponsWhenDead(npc, false)
+        SetPedDiesWhenInjured(npc, false)
+        SetEntityInvincible(npc , true)
+        FreezeEntityPosition(npc, true)
+        SetBlockingOfNonTemporaryEvents(npc, true)
+
+        TaskStartScenarioInPlace(npc, 'WORLD_HUMAN_AA_SMOKE', 0, true)
+
+        exports.ox_target:addBoxZone({
+            coords = vec3(value.location.x, value.location.y, value.location.z),
+            size = vec3(1, 1, 1),
+            rotation = 360,
+            debug = Config.Debugger,
+            options = {
+                {
+                    serverEvent = 'ac-human-labs-heist:server:CheckIfHeistOccupied',
+                    distance = Config.GeneralTargetDistance,
+                    icon = 'fa fa-syringe',
+                    label = Config.Translations["HeistStart"].heist_title,
+                },
+            }
+        })
     end
-
-    npc = CreatePed(2, Config.HeistNPC['HeistStarter'].model, Config.HeistNPC['HeistStarter'].location.x, Config.HeistNPC['HeistStarter'].location.y, Config.HeistNPC['HeistStarter'].location.z - 1, Config.HeistNPC['HeistStarter'].location.w,  false, true)
-
-    SetPedFleeAttributes(npc, 0, 0)
-    SetPedDropsWeaponsWhenDead(npc, false)
-    SetPedDiesWhenInjured(npc, false)
-    SetEntityInvincible(npc , true)
-    FreezeEntityPosition(npc, true)
-    SetBlockingOfNonTemporaryEvents(npc, true)
-
-    TaskStartScenarioInPlace(npc, 'WORLD_HUMAN_AA_SMOKE', 0, true)
-
-    exports.ox_target:addBoxZone({
-        coords = vec3(Config.HeistNPC['HeistStarter'].location.x, Config.HeistNPC['HeistStarter'].location.y, Config.HeistNPC['HeistStarter'].location.z),
-        size = vec3(1, 1, 1),
-        rotation = 360,
-        debug = Config.Debugger,
-        options = {
-            {
-                serverEvent = 'ac-human-labs-heist:server:CheckIfHeistOccupied',
-                distance = Config.GeneralTargetDistance,
-                icon = 'fa fa-syringe',
-                label = Config.Translations["HeistStart"].heist_title,
-            },
-        }
-    })
 end)
 
 RegisterNetEvent("ac-human-labs-heist:client:StartFirstPrep", function ()
@@ -308,35 +277,6 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerDownFBIbuilding', functio
     })
 
     CreateProp(vec3(3530.969, 3736.867, 36.713), `h4_prop_h4_elecbox_01a`, 'StartHackElectricBox', -10.731, 'bolt', Config.Translations["Phases"]["SecondPreparationPhase"].electric_box_target_label, true, {354, 0.7, 60, true, "Elektriciteits Kast"})
-end)
-
-RegisterNetEvent("ac-human-labs-heist:client:CreateLocationToSell", function ()
-    local random_location_npc = CreateRandomLocationNPC()
-    local sell_npc_blip = CreateBlip(random_location_npc.location.x, random_location_npc.location.y, random_location_npc.location.z, 280, 1.5, 2, true, "Serum Verkoop")
-
-    if CheckForRangePlayer(random_location_npc.location) then
-        CreateSellerNpc(random_location_npc)
-        
-        Npc_sellBoxZone = exports.ox_target:addBoxZone({
-            coords = vec3(random_location_npc.location.x, random_location_npc.location.y, random_location_npc.location.z),
-            size = vec3(0.7, 0.7, 0.7),
-            rotation = 360,
-            debug = Config.Debugger,
-            options = {
-                {
-                    onSelect = function ()
-                        TriggerServerEvent("ac-human-labs-heist:server:PayoutFromHeist", random_location_npc) -- Verkoop npc blip doen
-                        RemoveBlip(sell_npc_blip)
-                        TaskWanderStandard(seller_npc, 10.0, 10)
-                        exports.ox_target:removeZone(Npc_sellBoxZone)
-                    end,
-                    distance = Config.GeneralTargetDistance,
-                    icon = 'fa fa-money-bill-1-wave',
-                    label = "Serum Verkopen",
-                },
-            }
-        })
-    end
 end)
 
 exports('triggerBlueprintUI', function ()

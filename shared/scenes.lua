@@ -103,7 +103,6 @@ RegisterNetEvent('ac-human-labs-heist:client:StartPickingSerum', function (data)
 
     TriggerServerEvent('ac-human-labs-heist:server:GivePlayerItem', data[1], Config.HeistItems['FinaleItems'].sample.item_name, Config.HeistItems['FinaleItems'].sample.amount)
     TriggerServerEvent('ac-human-labs-heist:server:RemoveItem', Config.HeistItems["PrepPhaseItems"].blueprint.item_name, Config.HeistItems["PrepPhaseItems"].blueprint.amount)
-    TriggerEvent("ac-human-labs-heist:client:CreateLocationToSell")
 
     for i = 1, #chemical_scene['sceneObjects'] do
         DeleteEntity(chemical_scene['sceneObjects'][i])

@@ -3,47 +3,10 @@ Config = {}
 Config.Debugger = false
 
 Config.HeistNPC = {
-    ["HeistStarter"] = {
+    {
         -- location = vec4(1620.4526, -2283.8933, 106.2856, 179.1451), Coords to use
         location = vec4(132.3132, -762.5416, 45.7521, 162.7738),
         model = 's_m_y_robber_01',
-    },
-
-    ["HeistSeller"] = { -- Should not change ped model, there is a chance of models not spawning.
-        {
-            location = vec3(-68.4101, 6829.1128, 1.6323),
-            heading = 154.6393,
-            ped_model = `cs_fbisuit_01`,
-            reward = math.random(10000, 50000)
-        },
-
-        {
-            location = vec3(-2805.0562, 1424.4406, 100.9284),
-            heading = 144.3280,
-            ped_model = `cs_fbisuit_01`,
-            reward = math.random(10000, 50000)
-        },
-
-        {
-            location = vec3(-308.4942, -2048.4783, 29.9463),
-            heading = 174.6223,
-            ped_model = `cs_fbisuit_01`,
-            reward = math.random(10000, 50000)
-        },
-
-        {
-            location = vec3(1725.5969, -1470.1536, 113.9422),
-            heading = 250.7446,
-            ped_model = `cs_fbisuit_01`,
-            reward = math.random(10000, 50000)
-        },
-
-        {
-            location = vec3(2845.4302, 1441.3882, 32.5985),
-            heading = 256.5590,
-            ped_model = `cs_fbisuit_01`,
-            reward = math.random(10000, 50000)
-        },
     },
 }
 
