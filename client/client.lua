@@ -282,7 +282,7 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerToTopFBIbuilding', functi
                     })
                 end,
                 distance = 1.0,
-                icon = 'fa fa-credit-card',
+                icon = 'fa fa-scroll',
                 label = 'Pak blueprint',
             },
         }
