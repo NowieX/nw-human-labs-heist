@@ -48,6 +48,7 @@ local function CheckForRangePlayer(coords)
     end
 end
 
+--- @param random_npc table
 local function CreateSellerNpc(random_npc)
     seller_npc = CreatePed(1, random_npc.ped_model, random_npc.location.x, random_npc.location.y, random_npc.location.z - 1, random_npc.heading,  false, true)
 
