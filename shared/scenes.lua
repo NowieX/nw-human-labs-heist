@@ -8,10 +8,11 @@ RegisterNetEvent('ac-human-labs-heist:client:StartCardSwipe', function (card_swi
     local playerPed = PlayerPedId()
     local rotation = vec3(0.0, 0.0, -30.0)
     local animDict = "anim_heist@hs3f@ig3_cardswipe@male@"
-    local animation_timer = GetAnimDuration(animDict, "success_var01")
     
     RequestAnimDict(animDict)
     while not HasAnimDictLoaded(animDict) do Citizen.Wait(10) end
+
+    local animation_timer = GetAnimDuration(animDict, "success_var01")
     
     loadModel('ch_prop_swipe_card_01d')
     loadModel('tr_prop_tr_fp_scanner_01a')
@@ -38,39 +39,8 @@ RegisterNetEvent('ac-human-labs-heist:client:StartCardSwipe', function (card_swi
     DoorSystemSetDoorState(`fbi_elevator_right`, 0)
 end)
 
-RegisterCommand("swipe_card", function ()
-    local playerPed = PlayerPedId()
-    local rotation = GetEntityRotation(playerPed)
-    local card_swipe_coords = GetEntityCoords(playerPed)
-    local animDict = "anim_heist@hs3f@ig3_cardswipe@male@"
-    local animation_timer = GetAnimDuration(animDict, "success_var01")
-    
-    RequestAnimDict(animDict)
-    while not HasAnimDictLoaded(animDict) do Citizen.Wait(10) end
-    
-    loadModel('ch_prop_swipe_card_01d')
-    loadModel('tr_prop_tr_fp_scanner_01a')
-    
-    local security_card = CreateObject(`ch_prop_swipe_card_01d`, card_swipe_coords.x, card_swipe_coords.y, card_swipe_coords.z, true, true, false)
-    
-    local swipe_card_scene = NetworkCreateSynchronisedScene(card_swipe_coords.x, card_swipe_coords.y, card_swipe_coords.z, rotation.x, rotation.y, rotation.z, 2, true, true, 1065353216, 0, 1065353216)
-    
-    NetworkAddPedToSynchronisedScene(playerPed, swipe_card_scene, animDict, "success_var01", 1.5, -4.0, 2, 16, 1148846080, 0) 
-    NetworkAddSynchronisedSceneCamera(swipe_card_scene, animDict, "success_var01_camera")
-    NetworkAddEntityToSynchronisedScene(security_card, swipe_card_scene, animDict, "success_var01_card", 1.0, 1.0, 1)
-    
-    NetworkStartSynchronisedScene(swipe_card_scene)
-    
-    Citizen.Wait(animation_timer * 1000)
-
-    NetworkStopSynchronisedScene(swipe_card_scene)
-    
-    DeleteEntity(security_card)
-end, false)
-
 RegisterNetEvent('ac-human-labs-heist:client:StartPickingSerum', function (data)
     local serum_prop = data[2]
-    -- DeleteEntity(serum_prop)
     SetEntityVisible(serum_prop, false, false)
 
     local playerPed = PlayerPedId()
@@ -150,11 +120,12 @@ RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(dat
     local electric_box = data[2]
     local rotation = vec3(0.0, 0.0, -10.731)
     local animDict = "anim@scripted@heist@ig9_control_tower@male@"
-    local timer = GetAnimDuration(animDict, "enter") * 1000
-
+    
     RequestAnimDict(animDict)
     while not HasAnimDictLoaded(animDict) do Citizen.Wait(10) end
 
+    local opening_scene_timer = GetAnimDuration(animDict, "enter") * 1000
+    
     local openBoxScene = NetworkCreateSynchronisedScene(scene_coords.x, scene_coords.y, scene_coords.z - 1, rotation.x, rotation.y, rotation.z, 2, true, false, 1065353216, 0, 1065353216)
     
     NetworkAddPedToSynchronisedScene(playerPed, openBoxScene, animDict, "enter", 1.5, -4.0, 2, 16, 1148846080, 0)    
@@ -163,7 +134,7 @@ RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(dat
 
     NetworkStartSynchronisedScene(openBoxScene)
 
-    Citizen.Wait(timer)
+    Citizen.Wait(opening_scene_timer)
     
     local loopingScene = NetworkCreateSynchronisedScene(scene_coords.x, scene_coords.y, scene_coords.z - 1, rotation.x, rotation.y, rotation.z, 2, true, true, 1065353216, 0, 1065353216)
     
@@ -172,8 +143,8 @@ RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(dat
     
     NetworkStartSynchronisedScene(loopingScene)
     
-    local timer2 = GetAnimDuration(animDict, "loop") * 1000
-    Citizen.Wait(timer2)
+    local looping_scene_timer = GetAnimDuration(animDict, "loop") * 1000
+    Citizen.Wait(looping_scene_timer)
     
     local closingScene =  NetworkCreateSynchronisedScene(scene_coords.x, scene_coords.y, scene_coords.z - 1, rotation.x, rotation.y, rotation.z, 2, false, false, 1065353216, 0, 1065353216)
     NetworkAddPedToSynchronisedScene(playerPed, closingScene, animDict, "exit", 1.5, -4.0, 2, 16, 1148846080, 0)    
@@ -181,8 +152,8 @@ RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(dat
 
     NetworkStartSynchronisedScene(closingScene)
     
-    local timer3 = GetAnimDuration(animDict, "exit") * 1000
-    Citizen.Wait(timer3)
+    local closing_scene = GetAnimDuration(animDict, "exit") * 1000
+    Citizen.Wait(closing_scene)
     
     PlayEntityAnim(electric_box, "exit_electric_box", animDict, 0, true, false, true, 0, false)
 
