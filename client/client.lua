@@ -82,23 +82,7 @@ function CreateBlip(blip_x, blip_y, blip_z, sprite, scale, colour, route, blip_n
     return blip
 end
 
-local function CreateSellerNpc()
-    local random_npc = Config.HeistNPC["HeistSeller"][math.random(#Config.HeistNPC["HeistSeller"])]
-
-    seller_npc = CreatePed(2, random_npc.ped_model, random_npc.location.x, random_npc.location.y, random_npc.location.z - 1, random_npc.location.w,  false, true)
-
-    SetPedFleeAttributes(seller_npc, 0, 0)
-    SetPedDropsWeaponsWhenDead(seller_npc, false)
-    SetPedDiesWhenInjured(seller_npc, false)
-    SetEntityInvincible(seller_npc , true)
-    FreezeEntityPosition(seller_npc, true)
-    SetBlockingOfNonTemporaryEvents(seller_npc, true)
-
-    TaskStartScenarioInPlace(seller_npc, 'WORLD_HUMAN_AA_SMOKE', 0, true)
-    return random_npc
-end
-
---- @param prop_coords number
+--- @param prop_coords table
 --- @param prop_hash string
 --- @param event string
 --- @param prop_heading number
@@ -306,39 +290,6 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerDownFBIbuilding', functio
 
     CreateProp(vec3(3530.969, 3736.867, 36.713), `h4_prop_h4_elecbox_01a`, 'StartHackElectricBox', -10.731, 'bolt', Config.Translations["Phases"]["SecondPreparationPhase"].electric_box_target_label, true, {354, 0.7, 60, true, "Elektriciteits Kast"})
 end)
-
-function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target_label, use_blip, blip_info)
-    if use_blip then
-        prop_blip = CreateBlip(prop_coords.x, prop_coords.y, prop_coords.z, blip_info[1], blip_info[2], blip_info[3], blip_info[4], blip_info[5])
-    end
-
-    CheckForRangePlayer(prop_coords)
-
-    local prop = CreateObject(prop_hash, prop_coords.x, prop_coords.y, prop_coords.z, true, false, false)
-    SetEntityHeading(prop, prop_heading)
-    
-    if event == "StartHackElectricBox" then
-        PlaceObjectOnGroundProperly(prop)
-    end
-
-    boxZone = exports.ox_target:addBoxZone({
-        coords = vec3(prop_coords.x, prop_coords.y, prop_coords.z),
-        size = vec3(0.7, 0.7, 0.7),
-        rotation = 360,
-        debug = Config.Debugger,
-        options = {
-            {
-                onSelect = function ()
-                    TriggerEvent('ac-human-labs-heist:client:'..event, {prop_coords, prop})
-                    exports.ox_target:removeZone(boxZone)
-                end,
-                distance = Config.GeneralTargetDistance,
-                icon = 'fa fa-'..fa_icon,
-                label = target_label,
-            },
-        }
-    })
-end
 
 RegisterNetEvent("ac-human-labs-heist:client:CreateLocationToSell", function ()
     local random_location_npc = CreateRandomLocationNPC()
