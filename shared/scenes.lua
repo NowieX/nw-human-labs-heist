@@ -167,21 +167,7 @@ RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(dat
         type = 'info'
     })
 
-    local playerPed = PlayerPedId()
-    local coords = GetEntityCoords(playerPed)
-    local message = "Er is een overval gaande bij Humane Labs, graag zo snel mogelijk eenheden die kant in!" -- The message that will be received.
-    local alert = {
-        message = message,
-        -- img = "img url", -- Optie om foto toe te voegen aan melding
-        location = coords,
-    }
-
-    TriggerServerEvent('qs-smartphone:server:sendJobAlert', alert, "police") 
-    TriggerServerEvent('qs-smartphone:server:AddNotifies', {
-        head = "Overval Humane Labs", 
-        msg = message,
-        app = 'business'
-    })
+    CreatePoliceReport(playerPed, Config.Translations["Police"].humane_labs_alarm, "Humane Labs Overval")
 
     RemoveBlip(prop_blip)
     CreateProp(vec3(3560.526, 3672.674, 28.1219), `p_chem_vial_02b_s`, 'StartPickingSerum', -10.795, 'syringe', Config.Translations["Phases"]["Finale"].serum_label, false, nil)

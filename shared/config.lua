@@ -123,8 +123,8 @@ Config.Translations = {
     },
 
     ["Police"] = {
-        police_activity = "Er is verdachte activiteit gezien, locatie staat op jullie gps!",
-        police_heist = "Het alarm bij Humane Labs is afgegaan. Ga zo snel mogelijk naar de locatie toe, pas op want ze kunnen bewapend zijn!"
+        suspicious_activity = "Er is verdachte activiteit gezien bij het FIB gebouw, locatie staat op jullie gps!",
+        humane_labs_alarm = "Het alarm bij Humane Labs is afgegaan. Ga zo snel mogelijk naar de locatie toe, pas op want ze kunnen bewapend zijn!"
 
     },
 }

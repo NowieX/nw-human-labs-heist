@@ -82,6 +82,24 @@ function CreateBlip(blip_x, blip_y, blip_z, sprite, scale, colour, route, blip_n
     return blip
 end
 
+--- @param player number
+--- @param message string
+--- @param message_head string
+function CreatePoliceReport(player, message, message_head)
+    local player_coords = GetEntityCoords(player)
+    local alert = {
+        message = message,
+        location = player_coords,
+    }
+
+    TriggerServerEvent('qs-smartphone:server:sendJobAlert', alert, "police") 
+    TriggerServerEvent('qs-smartphone:server:AddNotifies', {
+        head = message_head, 
+        msg = message,
+        app = 'business'
+    })
+end
+
 --- @param prop_coords table
 --- @param prop_hash string
 --- @param event string
