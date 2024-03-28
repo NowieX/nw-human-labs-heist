@@ -12,6 +12,7 @@ local function CreateCardSwipe()
             {
                 onSelect = function ()
                     TriggerEvent('ac-human-labs-heist:client:StartCardSwipe', card_swipe_coords)
+                    exports.ox_target:removeZone(CardSwipeZone)
                 end,
                 distance = Config.GeneralTargetDistance,
                 icon = 'fa fa-credit-card',
@@ -205,7 +206,6 @@ end)
 
 RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerToTopFBIbuilding', function ()
     RemoveBlip(card_swipe_blip)
-    DeleteEntity(card_swipe)
     exports.ox_target:removeZone(ElevatorZone)
     DoScreenFadeOut(Config.HeistInformation['Elevator_fadeout_timer'])
     Citizen.Wait(Config.HeistInformation['Elevator_fadeout_timer'])
@@ -267,7 +267,7 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerDownFBIbuilding', functio
     SetEntityCoords(playerPed, 136.0172, -761.9059, 45.7520, true, false, false, false)
     Citizen.Wait(Config.HeistInformation['Elevator_fadeout_timer'])
     DoScreenFadeIn(Config.HeistInformation['Elevator_fadeout_timer'])
-
+    
     lib.notify({
         title = Config.Translations["Phases"].heist_boss_title,
         description = Config.Translations["Phases"]["SecondPreparationPhase"].go_to_human_labs.label,
@@ -275,7 +275,8 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerDownFBIbuilding', functio
         position = Config.Notifies.position, 
         type = 'info'
     })
-
+    
+    CreatePoliceReport(playerPed, Config.Translations["Police"].suspicious_activity.message, Config.Translations["Police"].suspicious_activity.message_title)
     CreateProp(vec3(3530.969, 3736.867, 36.713), `h4_prop_h4_elecbox_01a`, 'StartHackElectricBox', -10.731, 'bolt', Config.Translations["Phases"]["SecondPreparationPhase"].electric_box_target_label, true, {354, 0.7, 60, true, "Elektriciteits Kast"})
 end)
 

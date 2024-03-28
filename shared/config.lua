@@ -2,6 +2,11 @@ Config = {}
 
 Config.Debugger = false
 
+Config.Webhook = {
+    hacker_log = "",
+    item_log = "",
+}
+
 Config.HeistNPC = {
     {
         -- location = vec4(1620.4526, -2283.8933, 106.2856, 179.1451), Coords to use
@@ -18,7 +23,9 @@ Config.Notifies = {
 }
 
 Config.HeistInformation = {
-    ['Elevator_fadeout_timer'] = 1000
+    ['Elevator_fadeout_timer'] = 1000,
+    ['HeistCooldownTimer'] = 30, -- Minuten
+    ['PoliceNumberRequired'] = 1
 }
 
 Config.HeistItems = {
@@ -38,7 +45,17 @@ Config.Translations = {
         heist_occupied = {
             label = "Er is al iemand bezig met de human labs overval, kom later terug om het nog een keer te proberen!",
             timer = 10000
-        }
+        },
+
+        heist_recently_done = {
+            label = "Iemand heeft te recentelijk al een heist gedaan. Wacht nog %s seconden!", -- %s erin laten, deze formateerd het aantal seconden dat iemand moet wachten voor een nieuwe heist
+            timer = 10000
+        },
+        
+        not_enough_police = {
+            label = "Er is niet genoeg politie in dienst, er moet minimaal %s politie in dienst zijn.", -- %s erin laten, deze formateerd het aantal seconden dat iemand moet wachten voor een nieuwe heist
+            timer = 10000
+        },
     },
 
     ["Phases"] = {
@@ -47,7 +64,12 @@ Config.Translations = {
         progress_label = "Overleggen...",
         ["FirstPreparationPhase"] = {
             fib_building_message = {
-                label = "Ga naar het FIB gebouw, gebruik de kaart die ik je heb gegeven en ga dan met de lift omhoog.",
+                label = "Ga naar het FIB gebouw, gebruik de keycard die ik je heb gegeven en ga dan met de lift omhoog.",
+                timer = 10000,
+            },
+
+            fib_swipe_card_done = {
+                label = "Stap in de lift en ga omhoog door op de knop te drukken.",
                 timer = 10000,
             },
 
@@ -71,7 +93,7 @@ Config.Translations = {
             },
             
             doors_opened_notify = {
-                message = "De garagedeuren van humane labs zijn open, gebruik je blueprint om te zoeken naar het serum binnen in humane labs!",
+                message = "Nu komt de blueprint heel goed van pas! Ga via de garage deuren naar binnen en zoek het serum doormiddel van de blueprint.",
                 timer = 10000,
             }
         },
@@ -79,15 +101,21 @@ Config.Translations = {
         ["Finale"] = {
             serum_label = "Pak Serum",
             found_serum = {
-                message = "Goed werk, je hebt het serum gevonden, ga nu zo snel mogelijk naar de verkoper.  \nIs de politie er? Ga dan met ze onderhandelen.",
+                message = "Goed werk, je hebt het serum gevonden, ga nu zo snel mogelijk naar buiten.",
                 timer = 10000,
             }
         }
     },
 
     ["Police"] = {
-        suspicious_activity = "Er is verdachte activiteit gezien bij het FIB gebouw, locatie staat op jullie gps!",
-        humane_labs_alarm = "Het alarm bij Humane Labs is afgegaan. Ga zo snel mogelijk naar de locatie toe, pas op want ze kunnen bewapend zijn!"
+        suspicious_activity = {
+            message_title = "Verdachte Activiteit",
+            message = "Er is verdachte activiteit gezien bij het FIB gebouw, zet snel jullie GPS.",
+        },
 
+        humane_labs_alarm = {
+            message_title = "Overval Humane Labs",
+            message = "Het alarm bij Humane Labs is afgegaan. Ga zo snel mogelijk naar de locatie toe, pas op want ze kunnen bewapend zijn!"
+        },
     },
 }

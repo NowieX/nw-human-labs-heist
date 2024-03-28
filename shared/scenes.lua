@@ -30,9 +30,16 @@ RegisterNetEvent('ac-human-labs-heist:client:StartCardSwipe', function (card_swi
     Citizen.Wait(animation_timer * 1000)
 
     NetworkStopSynchronisedScene(swipe_card_scene)
+
+    lib.notify({
+        title = Config.Translations["Phases"].heist_boss_title,
+        description = Config.Translations["Phases"]["FirstPreparationPhase"].fib_swipe_card_done.label,
+        duration = Config.Translations["Phases"]["FirstPreparationPhase"].fib_swipe_card_done.timer, 
+        position = Config.Notifies.position, 
+        type = 'info'
+    })
     
     DeleteEntity(security_card)
-    exports.ox_target:removeZone(CardSwipeZone)
     TriggerServerEvent("ac-human-labs-heist:server:CheckForSamePlayer")
 
     DoorSystemSetDoorState(`fbi_elevator_left`, 0)
@@ -114,6 +121,7 @@ RegisterNetEvent('ac-human-labs-heist:client:StartPickingSerum', function (data)
 end)
 
 RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(data)
+    DeleteEntity(card_swipe)
     local playerPed = PlayerPedId()
     local scene_coords = data[1]
     local electric_box = data[2]
@@ -166,7 +174,7 @@ RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(dat
         type = 'info'
     })
 
-    CreatePoliceReport(playerPed, Config.Translations["Police"].humane_labs_alarm, "Humane Labs Overval")
+    CreatePoliceReport(playerPed, Config.Translations["Police"].humane_labs_alarm.message, Config.Translations["Police"].humane_labs_alarm.message_title)
 
     RemoveBlip(prop_blip)
     CreateProp(vec3(3560.526, 3672.674, 28.1219), `p_chem_vial_02b_s`, 'StartPickingSerum', -10.795, 'syringe', Config.Translations["Phases"]["Finale"].serum_label, false, nil)
