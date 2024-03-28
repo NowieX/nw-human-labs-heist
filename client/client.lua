@@ -1,6 +1,6 @@
 local function CreateCardSwipe()
     local card_swipe_coords = vec3(133.997, -762.857, 46.1)
-    card_swipe = CreateObject(`tr_prop_tr_fp_scanner_01a`, card_swipe_coords.x, card_swipe_coords.y, card_swipe_coords.z, true, true, false)
+    card_swipe = CreateObject(`tr_prop_tr_fp_scanner_01a`, card_swipe_coords.x, card_swipe_coords.y, card_swipe_coords.z - 0.2, true, true, false)
     SetEntityHeading(card_swipe, 337.5087)
 
     CardSwipeZone = exports.ox_target:addBoxZone({
