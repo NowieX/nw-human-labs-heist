@@ -108,7 +108,6 @@ function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target
         options = {
             {
                 onSelect = function ()
-                    print("Gaan nu "..event.." starten.")
                     TriggerEvent('ac-human-labs-heist:client:'..event, {prop_coords, prop})
                     exports.ox_target:removeZone(boxZone)
                 end,
