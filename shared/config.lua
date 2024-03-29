@@ -39,6 +39,11 @@ Config.HeistItems = {
     }
 }
 
+Config.RequiredWeapons = {
+    'weapon_pistol',
+    'weapon_pistol_mk2',
+}
+
 Config.Translations = {
     ["HeistStart"] = {
         heist_title = "Human Labs Heist",
@@ -54,6 +59,11 @@ Config.Translations = {
         
         not_enough_police = {
             label = "Er is niet genoeg politie in dienst, er moet minimaal %s politie in dienst zijn.", -- %s erin laten, deze formateerd het aantal seconden dat iemand moet wachten voor een nieuwe heist
+            timer = 10000
+        },
+
+        not_a_threat = {
+            label = "Je vormt geen bedreiging om deze heist te kunnen starten.",
             timer = 10000
         },
     },

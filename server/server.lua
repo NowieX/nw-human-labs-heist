@@ -86,6 +86,17 @@ local function StartHeistCooldownTimer()
     timer_running = false
 end
 
+local function CheckIfPlayerHasWeapon(xPlayer)
+    for weapon=1, #Config.RequiredWeapons do
+        local get_weapon_player = xPlayer.getInventoryItem(Config.RequiredWeapons[weapon])
+
+        if get_weapon_player.count >= 1 then
+            return true
+        end
+    end
+    return false
+end
+
 RegisterNetEvent('esx:playerDropped', function(playerId, reason)
     local xPlayer = ESX.GetPlayerFromId(playerId)
     
@@ -107,6 +118,11 @@ RegisterNetEvent('ac-human-labs-heist:server:CheckIfHeistOccupied', function()
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
     local PolicePlayers = ESX.GetExtendedPlayers('job', 'police')
+
+    if not CheckIfPlayerHasWeapon(xPlayer) then
+        TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].not_a_threat.label, duration = Config.Translations["HeistStart"].not_a_threat.timer, position = Config.Notifies.position, type = 'error'})
+        return
+    end
 
     if timer_running then
         TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].heist_recently_done.label:format(cooldown_timer), duration = Config.Translations["HeistStart"].heist_recently_done.timer, position = Config.Notifies.position, type = 'error'})
