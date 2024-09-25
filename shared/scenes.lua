@@ -3,8 +3,8 @@ local function loadModel(model)
     while not HasModelLoaded(GetHashKey(model)) do Citizen.Wait(0) end
 end
 
-RegisterNetEvent('ac-human-labs-heist:client:StartCardSwipe', function (card_swipe_coords)
-    TriggerServerEvent("ac-human-labs-heist:server:RemoveItem", Config.HeistItems["PrepPhaseItems"].key_card.item_name, Config.HeistItems["PrepPhaseItems"].key_card.amount)
+RegisterNetEvent('nw-human-labs:client:StartCardSwipe', function (card_swipe_coords)
+    TriggerServerEvent("nw-human-labs:server:RemoveItem", Config.HeistItems["PrepPhaseItems"].key_card.item_name, Config.HeistItems["PrepPhaseItems"].key_card.amount)
     local playerPed = PlayerPedId()
     local rotation = vec3(0.0, 0.0, -30.0)
     local animDict = "anim_heist@hs3f@ig3_cardswipe@male@"
@@ -40,13 +40,13 @@ RegisterNetEvent('ac-human-labs-heist:client:StartCardSwipe', function (card_swi
     })
     
     DeleteEntity(security_card)
-    TriggerServerEvent("ac-human-labs-heist:server:CheckForSamePlayer")
+    TriggerServerEvent("nw-human-labs:server:CheckForSamePlayer")
 
     DoorSystemSetDoorState(`fbi_elevator_left`, 0)
     DoorSystemSetDoorState(`fbi_elevator_right`, 0)
 end)
 
-RegisterNetEvent('ac-human-labs-heist:client:StartPickingSerum', function (data)
+RegisterNetEvent('nw-human-labs:client:StartPickingSerum', function (data)
     local serum_prop = data[2]
     SetEntityVisible(serum_prop, false, false)
 
@@ -108,8 +108,8 @@ RegisterNetEvent('ac-human-labs-heist:client:StartPickingSerum', function (data)
         type = 'warning'
     })
 
-    TriggerServerEvent('ac-human-labs-heist:server:GivePlayerItem', data[1], Config.HeistItems['FinaleItems'].sample.item_name, Config.HeistItems['FinaleItems'].sample.amount)
-    TriggerServerEvent('ac-human-labs-heist:server:RemoveItem', Config.HeistItems["PrepPhaseItems"].blueprint.item_name, Config.HeistItems["PrepPhaseItems"].blueprint.amount)
+    TriggerServerEvent('nw-human-labs:server:GivePlayerItem', data[1], Config.HeistItems['FinaleItems'].sample.item_name, Config.HeistItems['FinaleItems'].sample.amount)
+    TriggerServerEvent('nw-human-labs:server:RemoveItem', Config.HeistItems["PrepPhaseItems"].blueprint.item_name, Config.HeistItems["PrepPhaseItems"].blueprint.amount)
 
     for i = 1, #chemical_scene['sceneObjects'] do
         DeleteEntity(chemical_scene['sceneObjects'][i])
@@ -120,7 +120,7 @@ RegisterNetEvent('ac-human-labs-heist:client:StartPickingSerum', function (data)
 
 end)
 
-RegisterNetEvent('ac-human-labs-heist:client:StartHackElectricBox', function(data)
+RegisterNetEvent('nw-human-labs:client:StartHackElectricBox', function(data)
     DeleteEntity(card_swipe)
     local playerPed = PlayerPedId()
     local scene_coords = data[1]

@@ -11,7 +11,7 @@ local function CreateCardSwipe()
         options = {
             {
                 onSelect = function ()
-                    TriggerEvent('ac-human-labs-heist:client:StartCardSwipe', card_swipe_coords)
+                    TriggerEvent('nw-human-labs:client:StartCardSwipe', card_swipe_coords)
                     exports.ox_target:removeZone(CardSwipeZone)
                 end,
                 distance = Config.GeneralTargetDistance,
@@ -108,7 +108,7 @@ function CreateProp(prop_coords, prop_hash, event, prop_heading, fa_icon, target
         options = {
             {
                 onSelect = function ()
-                    TriggerEvent('ac-human-labs-heist:client:'..event, {prop_coords, prop})
+                    TriggerEvent('nw-human-labs:client:'..event, {prop_coords, prop})
                     exports.ox_target:removeZone(boxZone)
                 end,
                 distance = Config.GeneralTargetDistance,
@@ -144,7 +144,7 @@ CreateThread(function()
             debug = Config.Debugger,
             options = {
                 {
-                    serverEvent = 'ac-human-labs-heist:server:CheckIfHeistOccupied',
+                    serverEvent = 'nw-human-labs:server:CheckIfHeistOccupied',
                     distance = Config.GeneralTargetDistance,
                     icon = 'fa fa-syringe',
                     label = Config.Translations["HeistStart"].heist_title,
@@ -154,7 +154,7 @@ CreateThread(function()
     end
 end)
 
-RegisterNetEvent("ac-human-labs-heist:client:StartFirstPrep", function ()
+RegisterNetEvent("nw-human-labs:client:StartFirstPrep", function ()
     LockDoors(`fbi_elevator_left`, `v_ilev_fib_doore_l`, vector3(134.93751525879, -762.89825439453, 44.748867034912))
     LockDoors(`fbi_elevator_right`, `v_ilev_fib_doore_r`, vector3(136.35371398926, -763.41589355469, 44.74836730957))
     LockDoors(`human_labs_door_left`, `v_ilev_bl_shutter2`, vector3(3627.7131347656, 3746.7163085938, 27.69207572937))
@@ -186,7 +186,7 @@ RegisterNetEvent("ac-human-labs-heist:client:StartFirstPrep", function ()
     card_swipe_blip = CreateBlip(card_swipe_coords.x, card_swipe_coords.y, card_swipe_coords.z, 763, 0.7, 60, true, "Kaart swipe")
 end)
 
-RegisterNetEvent("ac-human-labs-heist:client:CreateZoneForElevator", function (x, y, z, event, fa_icon, zone_label)
+RegisterNetEvent("nw-human-labs:client:CreateZoneForElevator", function (x, y, z, event, fa_icon, zone_label)
     ElevatorZone = exports.ox_target:addBoxZone({
         coords = vec3(x, y, z),
         size = vec3(0.3, 0.3, 0.3),
@@ -194,7 +194,7 @@ RegisterNetEvent("ac-human-labs-heist:client:CreateZoneForElevator", function (x
         debug = Config.Debugger,
         options = {
             {
-                event = 'ac-human-labs-heist:client:'..event,
+                event = 'nw-human-labs:client:'..event,
                 distance = Config.GeneralTargetDistance,
                 icon = fa_icon,
                 label = zone_label,
@@ -203,7 +203,7 @@ RegisterNetEvent("ac-human-labs-heist:client:CreateZoneForElevator", function (x
     })
 end)
 
-RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerToTopFBIbuilding', function ()
+RegisterNetEvent('nw-human-labs:client:WarpPlayerToTopFBIbuilding', function ()
     RemoveBlip(card_swipe_blip)
     exports.ox_target:removeZone(ElevatorZone)
     DoScreenFadeOut(Config.HeistInformation['Elevator_fadeout_timer'])
@@ -236,7 +236,7 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerToTopFBIbuilding', functi
             {
                 onSelect = function ()
                     lib.progressBar({duration = 2000, label = "Blueprint pakken", canCancel = false, anim = {dict = 'anim@move_m@trash', lockX = true, lockY = true, lockZ = true, clip = "pickup"}})
-                    TriggerServerEvent('ac-human-labs-heist:server:GivePlayerItem', blueprint_coords, Config.HeistItems["PrepPhaseItems"].blueprint.item_name, Config.HeistItems["PrepPhaseItems"].blueprint.amount)
+                    TriggerServerEvent('nw-human-labs:server:GivePlayerItem', blueprint_coords, Config.HeistItems["PrepPhaseItems"].blueprint.item_name, Config.HeistItems["PrepPhaseItems"].blueprint.amount)
                     RemoveBlip(blueprint_blip)
                     DeleteEntity(Blueprint_prop)
                     exports.ox_target:removeZone(BluePrintZone)
@@ -257,7 +257,7 @@ RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerToTopFBIbuilding', functi
     })
 end)
 
-RegisterNetEvent('ac-human-labs-heist:client:WarpPlayerDownFBIbuilding', function ()
+RegisterNetEvent('nw-human-labs:client:WarpPlayerDownFBIbuilding', function ()
     exports.ox_target:removeZone(ElevatorZone)
     DoScreenFadeOut(Config.HeistInformation['Elevator_fadeout_timer'])
     Citizen.Wait(Config.HeistInformation['Elevator_fadeout_timer'])
@@ -286,6 +286,6 @@ exports('triggerBlueprintUI', function ()
     })
 end)
 
-RegisterNUICallback("ac-human-labs-heist:client:closeBlueprintUI", function()
+RegisterNUICallback("nw-human-labs:client:closeBlueprintUI", function()
     SetNuiFocus(false,false)
 end)

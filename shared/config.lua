@@ -23,7 +23,7 @@ Config.Notifies = {
 }
 
 Config.HeistInformation = {
-    ['Elevator_fadeout_timer'] = 1000,
+    ['Elevator_fadeout_timer'] = 2500,
     ['HeistCooldownTimer'] = 30, -- Minuten
     ['PoliceNumberRequired'] = 1
 }
@@ -70,8 +70,8 @@ Config.Translations = {
 
     ["Phases"] = {
         heist_boss_title = "Heist Baas",
-        progressbar_timer = 1000,
-        progress_label = "Overleggen...",
+        progressbar_timer = 5000,
+        -- progress_label = "Overleggen...",
         ["FirstPreparationPhase"] = {
             fib_building_message = {
                 label = "Ga naar het FIB gebouw, gebruik de keycard die ik je heb gegeven en ga dan met de lift omhoog.",

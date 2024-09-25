@@ -1,6 +1,6 @@
 fx_version 'cerulean'
 
-Description 'ac-jachtoverval created by nowiex'
+Description 'nw-human-labs created by nowiex'
 
 author 'nw | nowiex'
 

@@ -9,7 +9,7 @@ $(document).ready(function() {
     $(document).keyup(function(e) {
         if (e.key === "Escape") { // escape key maps to keycode `27`
             $("#container").fadeOut(400);
-            $.post('https://ac-human-labs-heist/ac-human-labs-heist:client:closeBlueprintUI')
+            $.post('https://nw-human-labs/nw-human-labs:client:closeBlueprintUI')
         }
     });
 });
