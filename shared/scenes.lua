@@ -173,15 +173,13 @@ RegisterNetEvent('nw-human-labs:client:StartHackElectricBox', function(data)
         position = Config.Notifies.position, 
         type = 'info'
     })
-
-    CreatePoliceReport(playerPed, Config.Translations["Police"].humane_labs_alarm.message, Config.Translations["Police"].humane_labs_alarm.message_title)
-
+    
     RemoveBlip(prop_blip)
     CreateProp(vec3(3560.526, 3672.674, 28.1219), `p_chem_vial_02b_s`, 'StartPickingSerum', -10.795, 'syringe', Config.Translations["Phases"]["Finale"].serum_label, false, nil)
     DoorSystemSetDoorState(`human_labs_door_left`, 0)
     DoorSystemSetDoorState(`human_labs_door_right`, 0)
 
-    TriggerEvent('nw-human-labs:client:CreatePoliceBlip:PoliceBlip', scene_coords)
+    TriggerServerEvent('nw-human-labs:server:CreatePoliceNotification', scene_coords)
 
     Citizen.Wait(50000)
     DeleteEntity(electric_box)

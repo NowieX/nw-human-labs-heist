@@ -51,24 +51,6 @@ function CreateBlip(blip_x, blip_y, blip_z, sprite, scale, colour, route, blip_n
     return blip
 end
 
---- @param player number
---- @param message string
---- @param message_head string
-function CreatePoliceReport(player, message, message_head)
-    local player_coords = GetEntityCoords(player)
-    local alert = {
-        message = message,
-        location = player_coords,
-    }
-
-    TriggerServerEvent('qs-smartphone:server:sendJobAlert', alert, "police") 
-    TriggerServerEvent('qs-smartphone:server:AddNotifies', {
-        head = message_head, 
-        msg = message,
-        app = 'business'
-    })
-end
-
 --- @param prop_coords table
 --- @param prop_hash string
 --- @param event string
@@ -275,9 +257,7 @@ RegisterNetEvent('nw-human-labs:client:WarpPlayerDownFBIbuilding', function ()
         type = 'info'
     })
     
-    CreatePoliceReport(playerPed, Config.Translations["Police"].suspicious_activity.message, Config.Translations["Police"].suspicious_activity.message_title)
     CreateProp(vec3(3530.969, 3736.867, 36.713), `h4_prop_h4_elecbox_01a`, 'StartHackElectricBox', -10.731, 'bolt', Config.Translations["Phases"]["SecondPreparationPhase"].electric_box_target_label, true, {354, 0.7, 60, true, "Elektriciteits Kast"})
-    TriggerServerEvent('nw-human-labs:server:CreatePoliceNotification')
 end)
 
 RegisterNetEvent('nw-human-labs:client:CreatePoliceBlip:PoliceBlip', function(ElectricBoxCoords)

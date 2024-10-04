@@ -160,14 +160,14 @@ RegisterNetEvent('nw-human-labs:server:CheckForSamePlayer', function ()
     end
 end)
 
-RegisterServerEvent('nw-human-labs:server:CreatePoliceNotification', function()
+RegisterServerEvent('nw-human-labs:server:CreatePoliceNotification', function(ElectricBoxCoords)
     local source = source
     local PolicePlayers = ESX.GetExtendedPlayers('job', 'police')
-
+    
     for i = 1, #(PolicePlayers) do
         local policePlayer = PolicePlayers[i]
-        TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations["Police"].humane_labs_alarm.message_title, description = Config.Translations["Police"].message_title, duration = Config.Translations["Police"].timer, position = Config.Notifies.position, type = 'warning', icon = 'fa fa-bell'})
-        TriggerClientEvent('nw-human-labs:client:CreatePoliceBlip:PoliceBlip', policePlayer.source)
+        TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations["Police"].message_title, description = Config.Translations["Police"].message, duration = Config.Translations["Police"].timer, position = Config.Notifies.position, type = 'warning', icon = 'fa fa-bell'})
+        TriggerClientEvent('nw-human-labs:client:CreatePoliceBlip:PoliceBlip', policePlayer.source, ElectricBoxCoords)
     end
 end)
 
