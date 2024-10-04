@@ -160,8 +160,7 @@ RegisterNetEvent('nw-human-labs:server:CheckForSamePlayer', function ()
     end
 end)
 
-RegisterServerEvent('nw-human-labs:server:CreatePoliceNotification')
-AddEventHandler('nw-human-labs:server:CreatePoliceNotification', function()
+RegisterServerEvent('nw-human-labs:server:CreatePoliceNotification', function()
     local source = source
     local PolicePlayers = ESX.GetExtendedPlayers('job', 'police')
 
