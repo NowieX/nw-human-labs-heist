@@ -181,6 +181,8 @@ RegisterNetEvent('nw-human-labs:client:StartHackElectricBox', function(data)
     DoorSystemSetDoorState(`human_labs_door_left`, 0)
     DoorSystemSetDoorState(`human_labs_door_right`, 0)
 
+    TriggerEvent('nw-human-labs:client:CreatePoliceBlip:PoliceBlip', scene_coords)
+
     Citizen.Wait(50000)
     DeleteEntity(electric_box)
 end)

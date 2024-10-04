@@ -118,14 +118,8 @@ Config.Translations = {
     },
 
     ["Police"] = {
-        suspicious_activity = {
-            message_title = "Verdachte Activiteit",
-            message = "Er is verdachte activiteit gezien bij het FIB gebouw, zet snel jullie GPS.",
-        },
-
-        humane_labs_alarm = {
-            message_title = "Overval Humane Labs",
-            message = "Het alarm bij Humane Labs is afgegaan. Ga zo snel mogelijk naar de locatie toe, pas op want ze kunnen bewapend zijn!"
-        },
+        message_title = "Overval Humane Labs",
+        message = "Het alarm bij Humane Labs is afgegaan. Ga zo snel mogelijk naar de locatie toe, pas op want ze kunnen bewapend zijn!",
+        timer = 10000
     },
 }
