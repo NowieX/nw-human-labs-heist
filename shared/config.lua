@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Debugger = false
+Config.Debugger = true
 
 Config.Webhook = {
     hacker_log = "",
@@ -9,8 +9,7 @@ Config.Webhook = {
 
 Config.HeistNPC = {
     {
-        -- location = vec4(1620.4526, -2283.8933, 106.2856, 179.1451), Coords to use
-        location = vec4(132.3132, -762.5416, 45.7521, 162.7738),
+        location = vec4(132.3132, -762.5416, 45.7521, 162.7738), -- Vec4 coords to use
         model = 's_m_y_robber_01',
     },
 }

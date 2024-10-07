@@ -121,17 +121,17 @@ RegisterNetEvent('nw-human-labs:server:CheckIfHeistOccupied', function()
     local PolicePlayers = ESX.GetExtendedPlayers('job', 'police')
 
     if not CheckIfPlayerHasWeapon(xPlayer) then
-        TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].not_a_threat.label, duration = Config.Translations["HeistStart"].not_a_threat.timer, position = Config.Notifies.position, type = 'error'})
+        TriggerClientEvent('ox_lib:notify', src, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].not_a_threat.label, duration = Config.Translations["HeistStart"].not_a_threat.timer, position = Config.Notifies.position, type = 'error'})
         return
     end
 
     if timer_running then
-        TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].heist_recently_done.label:format(cooldown_timer), duration = Config.Translations["HeistStart"].heist_recently_done.timer, position = Config.Notifies.position, type = 'error'})
+        TriggerClientEvent('ox_lib:notify', src, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].heist_recently_done.label:format(cooldown_timer), duration = Config.Translations["HeistStart"].heist_recently_done.timer, position = Config.Notifies.position, type = 'error'})
         return
     end
 
     if #PolicePlayers < Config.HeistInformation['PoliceNumberRequired'] then
-        TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].not_enough_police.label:format(Config.HeistInformation['PoliceNumberRequired']), duration = Config.Translations["HeistStart"].not_enough_police.timer, position = Config.Notifies.position, type = 'error'})
+        TriggerClientEvent('ox_lib:notify', src, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations["HeistStart"].not_enough_police.label:format(Config.HeistInformation['PoliceNumberRequired']), duration = Config.Translations["HeistStart"].not_enough_police.timer, position = Config.Notifies.position, type = 'error'})
         return
     end
 
@@ -139,10 +139,10 @@ RegisterNetEvent('nw-human-labs:server:CheckIfHeistOccupied', function()
         heist_started = true
         heistPlayers[src] = xPlayer.getName()
         TriggerClientEvent("nw-human-labs:client:StartFirstPrep", src)
-        Citizen.Wait(Config.Translations["Phases"]["FirstPreparationPhase"].progressbar_timer)
+        Citizen.Wait(Config.Translations["Phases"].progressbar_timer)
         xPlayer.addInventoryItem(Config.HeistItems["PrepPhaseItems"].key_card.item_name, Config.HeistItems["PrepPhaseItems"].key_card.amount)
     else
-        TriggerClientEvent('ox_lib:notify', source, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations['HeistStart'].heist_occupied.label, duration = Config.Translations['HeistStart'].heist_occupied.timer, position = Config.Notifies.position, type = 'warning'})
+        TriggerClientEvent('ox_lib:notify', src, {title = Config.Translations['HeistStart'].heist_title, description = Config.Translations['HeistStart'].heist_occupied.label, duration = Config.Translations['HeistStart'].heist_occupied.timer, position = Config.Notifies.position, type = 'warning'})
     end
 end)
 
