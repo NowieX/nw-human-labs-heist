@@ -152,7 +152,7 @@ RegisterNetEvent('nw-human-labs:server:CheckForSamePlayer', function ()
 
     for player_id, player_name in pairs(heistPlayers) do
         if player_id ~= src and player_name ~= xPlayer.getName() then
-            xPlayer.kick("Trigger Protectie, groetjes AquaCity 📸")
+            xPlayer.kick("Trigger Protectie, groetjes nw 📸")
             sendDiscordMessage("***Speler met informatie hieronder is gekickt vanwege een trigger protectie.***", Config.Webhook.hacker_log)
         else
             TriggerClientEvent('nw-human-labs:client:CreateZoneForElevator', src, 136.710, -763.387, 45.835, "WarpPlayerToTopFBIbuilding", 'fa fa-up-long', 'Ga omhoog')
@@ -176,7 +176,7 @@ RegisterNetEvent('nw-human-labs:server:GivePlayerItem', function (coords, item, 
     local xPlayer = ESX.GetPlayerFromId(src)
 
     if not coords or not item or not amount then
-        xPlayer.kick("Trigger Protectie, groetjes AquaCity 📸")
+        xPlayer.kick("Trigger Protectie, groetjes nw 📸")
         sendDiscordMessage("***Speler met informatie hieronder is gekickt vanwege een trigger protectie.***", Config.Webhook.hacker_log)
         return
     end
@@ -185,7 +185,7 @@ RegisterNetEvent('nw-human-labs:server:GivePlayerItem', function (coords, item, 
     local distance = #(playerCoords - coords)
 
     if distance > Config.GeneralTargetDistance + 1.5 then
-        xPlayer.kick("Trigger Protectie, groetjes AquaCity 📸")
+        xPlayer.kick("Trigger Protectie, groetjes nw 📸")
         sendDiscordMessage("***Speler met informatie hieronder is gekickt vanwege een trigger protectie.***", Config.Webhook.hacker_log)
         return
     end
@@ -208,7 +208,7 @@ RegisterNetEvent("nw-human-labs:server:RemoveActivePlayersFromTable", function (
 
     for player_id, player_name in pairs(heistPlayers) do
         if player_name ~= xPlayer.getName() or player_id ~= src then
-            xPlayer.kick("Trigger Protectie, groetjes AquaCity 📸")
+            xPlayer.kick("Trigger Protectie, groetjes nw 📸")
             sendDiscordMessage("***Speler met informatie hieronder is gekickt vanwege een trigger protectie.***", Config.Webhook.hacker_log)
             return
         else
