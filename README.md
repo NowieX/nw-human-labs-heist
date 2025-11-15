@@ -27,47 +27,52 @@ Heist is geslaagd, hoe het eindigt hangt af van server RP (vluchten, ruilen, dea
 Alle instellingen staan in config.lua. Hieronder even wat uitleg zodat niemand hoeft te vragen wat iets doet.
 
 ## 🧩 Algemene instellingen
-Naam	Wat het doet
-Config.Debugger	Logging in console aan/uit
-Config.GeneralTargetDistance	Afstand voor interacties (in meters)
+```
+Naam                             |        Wat het doet
+Config.Debugger                  |	  Logging in console aan/uit
+Config.GeneralTargetDistance     |	Afstand voor interacties (in meters)
+```
 📡 Webhooks
 
 Kan je leeg laten als je er geen gebruikt.
-
-Key	Functie
-hacker_log	Logt hack attempt informatie
-item_log	Logt item ontvangsten/verliezen
-🧍 Heist NPC
-
+```
+Key         |     Functie
+hacker_log  |     Logt hack attempt informatie
+item_log    |     Logt item ontvangsten/verliezen
+Heist       |     NPC
+```
 NPC model + locatie waar de heist begint.
-
+```
 Config.HeistNPC = {
     {
         location = vec4(132.3132, -762.5416, 45.7521, 162.7738),
         model = 's_m_y_robber_01'
     },
 }
-
+```
 
 Meerdere NPC’s toevoegen = gewoon een nieuwe entry onder elkaar zetten.
 
 ## 🔔 Meldingen (Notifications)
-- Instelling - Betekenis
-- timer - Hoelang bericht zichtbaar blijft
-- position - Waar de melding wordt weergegeven
-
+```
+- Instelling |         Betekenis
+- timer      | Hoelang bericht zichtbaar blijft
+- position   | Waar de melding wordt weergegeven
+```
 ## ⏱️ Heist voorwaarden
-- Naam - Betekenis
-- Elevator_fadeout_timer - Time voor lift animatie
-- HeistCooldownTimer - Cooldown in minuten
-- PoliceNumberRequired - Hoeveel politie minimaal online
-
+```
+- Naam                     |     Betekenis
+- Elevator_fadeout_timer   | Time voor lift animatie
+- HeistCooldownTimer       | Cooldown in minuten
+- PoliceNumberRequired     | Hoeveel politie minimaal online
+```
 ## 🎒 Items
 Alle items moeten in je framework bestaan!
-- Fase - Items
-- Preparation - fbi_keycard, human_labs_blueprint
-- Finale - human_labs_sample
-
+```
+- Fase         |         Items
+- Preparation  | fbi_keycard, human_labs_blueprint
+- Finale       | human_labs_sample
+```
 ##🔫 Weapons Check
 Speler moet gewapend zijn met een van deze items:
 ```
@@ -79,9 +84,9 @@ Config.RequiredWeapons = {
 
 ## 🌍 Translation / UI / Messages
 Alle meldingen, progressbars en alerts staan netjes in:
-
-- Config.Translations
-
+```
+Config.Translations
+```
 Je kan alles daarin aanpassen zonder scripts aan te raken. Messages zijn volledig NL geschreven.
 
 ## 👮‍♂️ Politie Systeem
@@ -91,10 +96,10 @@ Je kan alles daarin aanpassen zonder scripts aan te raken. Messages zijn volledi
 
 📦 Requirements
 
-✔ Target-systeem (bijv. ox_target)
-✔ Inventory die items ondersteunt
-✔ Notify / Progressbar resource
-✔ Script moet toegang hebben tot desc/HTML UI voor Blueprint Preview
+- Target-systeem (bijv. ox_target)
+- Inventory die items ondersteunt
+- Notify / Progressbar resource
+- Script moet toegang hebben tot desc/HTML UI voor Blueprint Preview
 
 🗣 Contact
 Voor vragen, bugs, uitbreidingen of paid custom work:
