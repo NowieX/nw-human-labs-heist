@@ -70,27 +70,29 @@ Config.HeistNPC = {
 Add more NPCs by copying and pasting a new entry under it.
 
 ## 🔔 Meldingen (Notifications)
-```
-- Setting    |         Description
-- timer      | Duration of notification visibility
-- position   | Screen position of notification
-```
+
+| Setting                          | Description                                 |
+|------------------------------|---------------------------------------------|
+| timer               | Duration of notification visibility         |
+| position  | Screen position of notification          |
+
 ## ⏱️ Heist voorwaarden
-```
-- Name                     |     Description
-- Elevator_fadeout_timer   | Duration of elevator fade animation
-- HeistCooldownTimer       | Heist cooldown in minutes
-- PoliceNumberRequired     | Required online police count
-```
+| Name                          | Description                                 |
+|------------------------------|---------------------------------------------|
+| Elevator_fadeout_timer               | Duration of elevator fade animation         |
+| HeistCooldownTimer  | Heist cooldown in minutes          |
+| PoliceNumberRequired  | Required online police count          |
+
 ## 🎒 Items
-Alle items moeten in je framework bestaan!
-```
-- Phase         |         Items
-- Preparation   | fbi_keycard, human_labs_blueprint
-- Finale        | human_labs_sample
-```
+All items must exist in your framework.
+| Phase                          | Items                                 |
+|------------------------------|---------------------------------------------|
+| Preparation               | fbi_keycard, human_labs_blueprint         |
+| Finale  | human_labs_sample          |
+
 ##🔫 Weapons Check
-Player must be armed with one of the following:
+Player must be armed with one of the following: (you can change this in the Config.lua to your own likings)
+
 ```lua
 Config.RequiredWeapons = {
     'weapon_pistol',
