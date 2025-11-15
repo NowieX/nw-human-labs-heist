@@ -1,48 +1,66 @@
-# 🧬 Human Labs Heist – FiveM (QB/ESX compatible)
+# 🧬 Human Labs Heist – FiveM ESX/OX
 
-Een volledig custom heist waarbij spelers via meerdere stappen het Human Labs Serum moeten bemachtigen. De heist bevat NPC-interacties, item-progressie, hacking, blueprint mechanics, HTML UI en politie-interventie.
+A fully custom heist where players must obtain the Human Labs serum through multiple stages.  
+This heist includes NPC interaction, item progression, hacking, blueprint mechanics, HTML UI and police intervention.
 
-## 🚀 Heist Flow (kort & duidelijk)
+---
 
-### 1️⃣ Starten bij de Heist NPC
-De speler moet gewapend zijn met één van de items uit Config.RequiredWeapons.
-Interactie binnen Config.GeneralTargetDistance meter.
-Als hij voldoet -> krijgt een keycard item en gaat door.
+## 🚀 Heist Flow (Short & Clear)
 
-### 2️⃣ FIB Building – Blueprint fase
-Met de keycard kan hij via de lift omhoog.
-Boven moet de speler zelf de blueprint zoeken.
-Als gevonden -> terug naar de lift, dan Human Labs waypoint verschijnt.
+### 1️⃣ Starting at the Heist NPC
+- The player must be armed with one of the items from **Config.RequiredWeapons**
+- Interaction must occur within **Config.GeneralTargetDistance** meters
+- If requirements are met → Player receives a **keycard item**
 
-### 3️⃣ Human Labs – Hacking & Infiltratie
-De speler hacked het electric box panel (progressbar + alert).
-Politie krijgt automatisch melding na hack.
-De deuren gaan open → met blueprint kan hij binnen het serum zoeken.
+---
 
-### 4️⃣ Finale – Serum pakken & ontsnappen
-Speler pakt het serum item.
-Heist is geslaagd, hoe het eindigt hangt af van server RP (vluchten, ruilen, dealen, etc.).
+### 2️⃣ FIB Building – Blueprint Phase
+- Player uses the keycard to access the elevator
+- Once upstairs, the player must manually **search for the blueprint**
+- When found → Return to elevator → **Human Labs waypoint appears**
+
+---
+
+### 3️⃣ Human Labs – Hacking & Infiltration
+- Player hacks the electric box (progressbar + alert)
+- Police are automatically alerted after the hack
+- Doors open → With blueprint, the player can **search for the serum**
+
+---
+
+### 4️⃣ Finale – Grab Serum & Escape
+- Player picks up the serum item
+- Heist is completed
+- Outcome depends on **server RP** (escape, trade, deal, etc.)
+
+---
 
 ## 🔧 Configuration Guide
-Alle instellingen staan in config.lua. Hieronder even wat uitleg zodat niemand hoeft te vragen wat iets doet.
+All settings are located inside **config.lua**
 
-## 🧩 Algemene instellingen
-```
-Naam                             |        Wat het doet
-Config.Debugger                  |	  Logging in console aan/uit
-Config.GeneralTargetDistance     |	Afstand voor interacties (in meters)
-```
-📡 Webhooks
+## 🧩 General Settings
 
-Kan je leeg laten als je er geen gebruikt.
-```
-Key         |     Functie
-hacker_log  |     Logt hack attempt informatie
-item_log    |     Logt item ontvangsten/verliezen
-Heist       |     NPC
-```
+| Name                          | Description                                 |
+|------------------------------|---------------------------------------------|
+| Config.Debugger               | Enables or disables console logging         |
+| Config.GeneralTargetDistance  | Interaction distance *(in meters)*          |
+
+---
+
+## 📡 Webhooks
+
+Can be left empty if not used.
+
+| Key         | Function                                |
+|-------------|------------------------------------------|
+| hacker_log  | Logs hack attempt actions                |
+| item_log    | Logs received or lost items              |
 NPC model + locatie waar de heist begint.
-```
+
+## 🧍 Heist NPC
+NPC location and model where the heist starts:
+
+```lua
 Config.HeistNPC = {
     {
         location = vec4(132.3132, -762.5416, 45.7521, 162.7738),
@@ -50,32 +68,31 @@ Config.HeistNPC = {
     },
 }
 ```
-
-Meerdere NPC’s toevoegen = gewoon een nieuwe entry onder elkaar zetten.
+Add more NPCs by copying and pasting a new entry under it.
 
 ## 🔔 Meldingen (Notifications)
 ```
-- Instelling |         Betekenis
-- timer      | Hoelang bericht zichtbaar blijft
-- position   | Waar de melding wordt weergegeven
+- Setting    |         Description
+- timer      | Duration of notification visibility
+- position   | Screen position of notification
 ```
 ## ⏱️ Heist voorwaarden
 ```
-- Naam                     |     Betekenis
-- Elevator_fadeout_timer   | Time voor lift animatie
-- HeistCooldownTimer       | Cooldown in minuten
-- PoliceNumberRequired     | Hoeveel politie minimaal online
+- Name                     |     Description
+- Elevator_fadeout_timer   | Duration of elevator fade animation
+- HeistCooldownTimer       | Heist cooldown in minutes
+- PoliceNumberRequired     | Required online police count
 ```
 ## 🎒 Items
 Alle items moeten in je framework bestaan!
 ```
-- Fase         |         Items
-- Preparation  | fbi_keycard, human_labs_blueprint
-- Finale       | human_labs_sample
+- Phase         |         Items
+- Preparation   | fbi_keycard, human_labs_blueprint
+- Finale        | human_labs_sample
 ```
 ##🔫 Weapons Check
-Speler moet gewapend zijn met een van deze items:
-```
+Player must be armed with one of the following:
+```lua
 Config.RequiredWeapons = {
     'weapon_pistol',
     'weapon_pistol_mk2',
@@ -83,25 +100,25 @@ Config.RequiredWeapons = {
 ```
 
 ## 🌍 Translation / UI / Messages
-Alle meldingen, progressbars en alerts staan netjes in:
+All notifications, progressbars and alert messages are stored inside:
 ```
 Config.Translations
 ```
-Je kan alles daarin aanpassen zonder scripts aan te raken. Messages zijn volledig NL geschreven.
+Everything can be changed there without editing script code.
 
-## 👮‍♂️ Politie Systeem
-- Wordt getriggered na het hacken
-- Stuurt een melding naar elke online agent
-- Agents krijgen tijd en locatie + waarschuwing dat dader bewapend kan zijn
+## 👮‍♂️ Police System
+- Triggered automatically after hacking
+- Sends alert to every online police officer
+- Police receive coordinates and a warning that the suspect may be armed
 
 📦 Requirements
 
-- Target-systeem (bijv. ox_target)
-- Inventory die items ondersteunt
-- Notify / Progressbar resource
-- Script moet toegang hebben tot desc/HTML UI voor Blueprint Preview
+- Target system (e.g. ox_target)
+- Inventory system that supports items
+- Notification + progressbar system
+- HTML support for blueprint preview window
 
 🗣 Contact
-Voor vragen, bugs, uitbreidingen of paid custom work:
+For questions, bugs, improvements or paid development work:
 **Discord: nowiex**
-DM mag altijd, maar alleen als het écht niet in de README staat 😄
+DM is always welcome, but only if it's really not in the README 😄
