@@ -55,7 +55,6 @@ Can be left empty if not used.
 |-------------|------------------------------------------|
 | hacker_log  | Logs hack attempt actions                |
 | item_log    | Logs received or lost items              |
-NPC model + locatie waar de heist begint.
 
 ## 🧍 Heist NPC
 NPC location and model where the heist starts:
