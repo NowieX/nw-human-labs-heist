@@ -69,14 +69,14 @@ Config.HeistNPC = {
 ```
 Add more NPCs by copying and pasting a new entry under it.
 
-## 🔔 Meldingen (Notifications)
+## 🔔 Notifications
 
 | Setting                          | Description                                 |
 |------------------------------|---------------------------------------------|
 | timer               | Duration of notification visibility         |
 | position  | Screen position of notification          |
 
-## ⏱️ Heist voorwaarden
+## ⏱️ Heist Requirements
 | Name                          | Description                                 |
 |------------------------------|---------------------------------------------|
 | Elevator_fadeout_timer               | Duration of elevator fade animation         |
