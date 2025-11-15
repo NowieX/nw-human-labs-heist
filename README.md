@@ -52,29 +52,30 @@ Config.HeistNPC = {
 Meerdere NPC’s toevoegen = gewoon een nieuwe entry onder elkaar zetten.
 
 ## 🔔 Meldingen (Notifications)
-Instelling - Betekenis
-timer - Hoelang bericht zichtbaar blijft
-position - Waar de melding wordt weergegeven
+- Instelling - Betekenis
+- timer - Hoelang bericht zichtbaar blijft
+- position - Waar de melding wordt weergegeven
 
 ## ⏱️ Heist voorwaarden
-Naam - Betekenis
-Elevator_fadeout_timer - Time voor lift animatie
-HeistCooldownTimer - Cooldown in minuten
-PoliceNumberRequired - Hoeveel politie minimaal online
+- Naam - Betekenis
+- Elevator_fadeout_timer - Time voor lift animatie
+- HeistCooldownTimer - Cooldown in minuten
+- PoliceNumberRequired - Hoeveel politie minimaal online
 
 ## 🎒 Items
 Alle items moeten in je framework bestaan!
-Fase - Items
-Preparation - fbi_keycard, human_labs_blueprint
-Finale - human_labs_sample
+- Fase - Items
+- Preparation - fbi_keycard, human_labs_blueprint
+- Finale - human_labs_sample
 
 ##🔫 Weapons Check
 Speler moet gewapend zijn met een van deze items:
-
+```
 Config.RequiredWeapons = {
     'weapon_pistol',
     'weapon_pistol_mk2',
 }
+```
 
 ## 🌍 Translation / UI / Messages
 Alle meldingen, progressbars en alerts staan netjes in:
